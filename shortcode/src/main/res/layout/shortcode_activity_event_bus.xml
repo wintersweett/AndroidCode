@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvStickEvent"
+        style="@style/CommonButtonTheme"
+        android:text="粘性事件" />
+
+
+    <TextView
+        android:id="@+id/tvRegister"
+        style="@style/CommonButtonTheme"
+        android:text="注册事件" />
+
+    <TextView
+        android:id="@+id/tvUnregister"
+        style="@style/CommonButtonTheme"
+        android:text="取消注册" />
+
+    <TextView
+        android:id="@+id/tvSendEvent"
+        style="@style/CommonButtonTheme"
+        android:text="发送事件" />
+
+
+</LinearLayout>

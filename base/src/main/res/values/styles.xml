@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CommonButtonTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/base_launch_page_bg_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+</resources>

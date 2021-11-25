@@ -3,5 +3,7 @@
     package="com.havefun.shortcode">
     <application>
         <activity android:name=".ShortCodeActivity"/>
+        <activity android:name=".activity.SpannableStringActivity"/>
+        <activity android:name=".activity.EventBusActivity"/>
     </application>
 </manifest>
