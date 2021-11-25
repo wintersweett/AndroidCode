@@ -1,0 +1,6 @@
+rootProject.name = "AndroidStudy"
+include ':app'
+include ':shortcode'
+include ':view'
+include ':base'
+include ':common'
