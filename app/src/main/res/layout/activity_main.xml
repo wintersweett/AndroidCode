@@ -5,8 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
     tools:context=".MainActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:text="功能列表"
+        android:textColor="#222222"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_height="50dp"/>
 
     <TextView
         android:id="@+id/tvLaunchShortCodePage"
@@ -15,7 +22,24 @@
         android:background="@drawable/base_launch_page_bg_selector"
         android:gravity="center"
         android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="代码片段"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvLaunchThirdParty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/base_launch_page_bg_selector"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="三方库"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

@@ -8,9 +8,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
+import com.havefun.common.Constants;
 import com.havefun.shortcode.ShortCodeActivity;
 
+@Route(path = "/test/activity")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityMainBinding binding;
@@ -30,7 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.tvLaunchShortCodePage:
-                intent.setClass(this, ShortCodeActivity.class);
+                ARouter.getInstance().build(Constants.PATH_SHORT_CODE_ACTIVITY)
+                        .withString("name", "zhang")
+                        .navigation();
+
                 break;
             default:
 
