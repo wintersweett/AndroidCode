@@ -13,6 +13,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
 import com.havefun.common.Constants;
 import com.havefun.shortcode.ShortCodeActivity;
+import com.havefun.view.WidgetActivity;
 
 @Route(path = "/test/activity")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -24,24 +25,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         binding.tvLaunchShortCodePage.setOnClickListener(this);
+        binding.tvLaunchWidget.setOnClickListener(this);
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.tvLaunchShortCodePage:
                 ARouter.getInstance().build(Constants.PATH_SHORT_CODE_ACTIVITY)
-                        .withString("name", "zhang")
                         .navigation();
 
+                break;
+            case R.id.tvLaunchWidget:
+                startActivity(new Intent(MainActivity.this, WidgetActivity.class));
                 break;
             default:
 
         }
-        startActivity(intent);
     }
 }
