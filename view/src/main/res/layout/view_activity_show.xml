@@ -4,18 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.havefun.view.MyViewGroup
-        android:id="@+id/viewGroup"
-        android:layout_width="800dp"
-        android:layout_height="800dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#668877"
-            android:text="我是中国人"
-            android:textSize="150dp" />
-    </com.havefun.view.MyViewGroup>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="300dp" />
 
     <Button
         android:id="@+id/btnChangeSize"

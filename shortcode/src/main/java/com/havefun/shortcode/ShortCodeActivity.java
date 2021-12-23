@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.havefun.shortcode.activity.EventBusActivity;
+import com.havefun.shortcode.activity.ViewPagerActivity;
 import com.havefun.shortcode.databinding.ShortcodeActivityShortcodeBinding;
 
 @Route(path = PATH_SHORT_CODE_ACTIVITY)
@@ -22,6 +23,6 @@ public class ShortCodeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.tvEventBusPage.setOnClickListener(v -> startActivity(new Intent(this,
-                EventBusActivity.class)));
+                ViewPagerActivity.class)));
     }
 }

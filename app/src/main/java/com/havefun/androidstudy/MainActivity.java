@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLaunchShortCodePage:
-                ARouter.getInstance().build(Constants.PATH_SHORT_CODE_ACTIVITY)
-                        .navigation();
+                startActivity(new Intent(MainActivity.this, ShortCodeActivity.class));
 
                 break;
             case R.id.tvLaunchWidget:
