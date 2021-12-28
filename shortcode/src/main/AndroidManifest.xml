@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.havefun.shortcode">
-    <application>
+    <application
+        android:allowBackup="false">
         <activity android:name=".ShortCodeActivity"/>
         <activity android:name=".activity.SpannableStringActivity"/>
         <activity android:name=".activity.EventBusActivity"/>

@@ -6,25 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <com.havefun.shortcode.widget.ColorTrackTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="你好,世界" />
+
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
         android:text="功能列表"
         android:textColor="#222222"
-        android:textStyle="bold"
-        android:gravity="center"
         android:textSize="20sp"
-        android:layout_height="50dp"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvLaunchShortCodePage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/base_launch_page_bg_selector"
         android:gravity="center"
         android:padding="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:text="代码片段"
         android:textColor="@color/white"
         android:textSize="16sp" />
@@ -33,8 +39,8 @@
         android:id="@+id/tvLaunchThirdParty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/base_launch_page_bg_selector"
         android:gravity="center"
@@ -47,8 +53,8 @@
         android:id="@+id/tvLaunchWidget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/base_launch_page_bg_selector"
         android:gravity="center"

@@ -2,7 +2,9 @@ package com.havefun.shortcode.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -29,6 +31,10 @@ public class MyImageView extends ImageView {
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(50)))
                 .into(this);
         setVisibility(VISIBLE);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, displayMetrics);
+        float sp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, displayMetrics);
     }
 
     @Override
