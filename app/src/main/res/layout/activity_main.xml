@@ -8,9 +8,12 @@
     tools:context=".MainActivity">
 
     <com.havefun.shortcode.widget.ColorTrackTextView
-        android:layout_width="match_parent"
+        android:id="@+id/colorTrackTextView"
+        android:layout_width="wrap_content"
+        android:text="你好世界"
         android:layout_height="wrap_content"
-        android:text="你好,世界" />
+        app:changeColor="@color/base_color_06c05f"
+        app:originColor="@color/color_333333"/>
 
     <TextView
         android:layout_width="match_parent"

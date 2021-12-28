@@ -2,6 +2,8 @@ package com.havefun.androidstudy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(binding.getRoot());
         binding.tvLaunchShortCodePage.setOnClickListener(this);
         binding.tvLaunchWidget.setOnClickListener(this);
+
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -34,8 +37,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLaunchShortCodePage:
-                startActivity(new Intent(MainActivity.this, ShortCodeActivity.class));
-
+                //startActivity(new Intent(MainActivity.this, ShortCodeActivity.class));
+                ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0.0f, 1.0f);
+                valueAnimator.setDuration(2000);
+                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float progress = (float) animation.getAnimatedValue();
+                        binding.colorTrackTextView.setCurrentProgress(progress);
+                    }
+                });
+                valueAnimator.start();
                 break;
             case R.id.tvLaunchWidget:
                 startActivity(new Intent(MainActivity.this, WidgetActivity.class));
