@@ -10,10 +10,10 @@
     <com.havefun.shortcode.widget.ColorTrackTextView
         android:id="@+id/colorTrackTextView"
         android:layout_width="wrap_content"
-        android:text="你好世界"
         android:layout_height="wrap_content"
+        android:text="你好世界"
         app:changeColor="@color/base_color_06c05f"
-        app:originColor="@color/color_333333"/>
+        app:originColor="@color/color_333333" />
 
     <TextView
         android:layout_width="match_parent"
@@ -65,5 +65,25 @@
         android:text="自定义控件"
         android:textColor="@color/white"
         android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editText"
+        tools:hint="这个候选人的"
+        android:layout_margin="16dp"
+        android:textSize="14sp"
+        android:gravity="left|top"
+        android:lineSpacingExtra="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        tools:ignore="Suspicious0dp" />
+
+    <TextView
+        android:id="@+id/tvCounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

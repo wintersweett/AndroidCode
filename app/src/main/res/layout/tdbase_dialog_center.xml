@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/rl_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingClass"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/tv_title"
+        tools:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/ll_input"
+        android:layout_below="@id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_height="109dp"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/et_input"
+            tools:hint="这个候选人的"
+            android:background="@null"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@color/base_color_FF6644"
+            android:focusable="true"
+            android:textSize="14sp"
+            android:lineSpacingExtra="3dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            tools:ignore="Suspicious0dp" />
+        <TextView
+            android:id="@+id/tv_count"
+            tools:text="100/200"
+            android:textSize="12sp"
+            android:layout_gravity="right|bottom"
+            android:gravity="bottom|right"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <View
+        android:layout_below="@id/ll_input"
+        android:background="#F5F5F5"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+
+
+
+</RelativeLayout >

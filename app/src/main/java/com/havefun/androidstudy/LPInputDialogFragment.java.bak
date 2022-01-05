@@ -1,0 +1,395 @@
+package com.liepin.td.base.dialog;
+
+import static com.liepin.widget.basedialogfragment.core.BaseDialogConfig.NO_ANIMATION;
+
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+
+import com.j256.ormlite.stmt.query.In;
+import com.liepin.core.interfaces.TextWatcherAdapter;
+import com.liepin.td.base.R;
+import com.liepin.td.base.dialog.interfaces.OnLPInputDialogClickListenerAdapter;
+import com.liepin.td.base.interfaces.ICommonCallback;
+import com.liepin.td.base.sdk.tlog.TLogManager;
+import com.liepin.td.base.utils.BaseUtils;
+import com.liepin.td.base.widget.LeftRightBtnLayout;
+import com.liepin.widget.basedialogfragment.core.BaseDialogBuilder;
+import com.liepin.widget.basedialogfragment.core.BaseDialogConfig;
+import com.liepin.widget.basedialogfragment.core.BaseDialogFragment;
+import com.swift.analytics.view.AutoTlogHelper;
+
+/***
+*@Author: WinterSweett
+*@Date:
+*@Description: 位于页面中央的公共弹窗：标题、按钮文本及颜色、输入框hint 均可以动态配置
+*/
+public class LPInputDialogFragment extends DialogFragment {
+    private RelativeLayout rl_root ;
+    private TextView tv_title ;
+    private LinearLayout ll_input ;
+    private EditText et_input ;
+    private TextView tv_count ;//字数比例
+    private LeftRightBtnLayout leftRightBtnLayout ;
+    private TextView tvLeft ;
+    private TextView tvRight ;
+    private int count ;//input中输入的字数
+    @Override
+    protected int onLayoutId() {
+        return R.layout.tdbase_dialog_center;
+    }
+
+    @Override
+    protected void initView() {
+        sendLog(builder.showTLog, builder.showTLogDataInfo);
+        rl_root = findView(R.id.rl_root);
+        autoLog(rl_root, true, builder.showAutoTLogDataInfo);
+        tv_title = findView(R.id.tv_title) ;
+        ll_input = findView(R.id.ll_input);
+        et_input = findView(R.id.et_input);
+        et_input.setMovementMethod(ScrollingMovementMethod.getInstance()); //支持高亮点击
+        tv_count = findView(R.id.tv_count);
+        initTvCountVisibleGone();
+        leftRightBtnLayout = findView(R.id.lefRightBtnLayout);
+        tvLeft = leftRightBtnLayout.getTvLeft() ;
+        tvRight = leftRightBtnLayout.getTvRight() ;
+        autoLog(leftRightBtnLayout.getTvLeft(), true, builder.leftShowAutoTLogDataInfo);
+        autoLog(leftRightBtnLayout.getTvLeft(), false, builder.leftClickAutoTLogDataInfo);
+        autoLog(leftRightBtnLayout.getTvRight(), true, builder.rightShowAutoTLogDataInfo);
+        autoLog(leftRightBtnLayout.getTvRight(), false, builder.rightClickAutoTLogDataInfo);
+        registerListener() ;
+    }
+    private void autoLog(View view, boolean isExposure, Object dataInfo) {
+        if (dataInfo != null) {
+            if (isExposure) {
+                AutoTlogHelper.enableExposure(view, dataInfo, 1500);
+            } else {
+                AutoTlogHelper.setClickDataInfo(view, dataInfo);
+            }
+        }
+    }
+
+    private void registerListener() {
+        et_input.addTextChangedListener(new TextWatcherAdapter() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                tvRight.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(builder.inputMinLength == null || builder.inputMaxLength ==null){
+                            tvRight.setTextColor(Color.parseColor(builder.rightButtonEnableColor));
+                            return;
+                        }
+                        if(count> (builder.inputMinLength == null ? 0: builder.inputMinLength) && count < builder.inputMaxLength){
+                            tvRight.setTextColor(Color.parseColor(builder.rightButtonEnableColor));
+                        }else {
+                            tvRight.setTextColor(Color.parseColor(builder.rightButtonDisableColor));
+                        }
+
+                    }
+                });
+                if(tv_count.getVisibility() == View.GONE) return;
+                count = BaseUtils.getInputValidLength(s);
+                Log.d("zhm","count::"+count) ;
+                tv_count.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //设置文本字数的颜色与值
+                        StringBuilder stringBuilder = new StringBuilder() ;
+                        SpannableString spannableString = new SpannableString(count+"") ;
+                        if(0 == count){
+                            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0B29")),0,String.valueOf(count).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }else {
+                            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor(builder.hintCountColor.toString())),0,String.valueOf(count).length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }
+                        stringBuilder.append(spannableString).append("/").append(builder.inputMaxLength);
+                        tv_count.setText(stringBuilder.toString());
+
+                        //文本字数在最小与最大之间 按钮才能显示高亮
+
+                    }
+
+                }) ;
+
+
+            }
+        });
+        leftRightBtnLayout.setOnLeftRightBtnClickListener(new LeftRightBtnLayout.OnLeftRightBtnClickListener() {
+            @Override
+            public void onLeftBtnClick(View v) {
+                if (null != builder.clickListener) {
+                    builder.clickListener.onCLickLeftBtn(LPInputDialogFragment.this, v);
+                } else {
+                    onCenterLeftBtnClick();
+                }
+            }
+
+            @Override
+            public void onRightBtnClick(View v) {
+                if (null != builder.clickListener) {
+                    builder.clickListener.onCLickRightBtn(LPInputDialogFragment.this, v);
+                } else {
+                    onCenterRightBtnClick();
+                }
+            }
+        }) ;
+        rl_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+    private void onCenterLeftBtnClick() {
+        //绝大部分场景 点击完底部按钮后弹窗都消失
+        safeDismiss();
+    }
+
+    private void onCenterRightBtnClick() {
+        safeDismiss();
+    }
+
+    @Override
+    protected void initParam() {
+        setTitle(builder.title);
+        setContent(builder.content);
+        setHint(builder.hint);
+        setIsOneButton(builder.isOneButton);
+        setRightBtnText(builder.rightButtonText);
+        if (!builder.isOneButton) {
+            setLeftBtnText(builder.leftButtonText);
+            setLeftBtnEnableColor();
+        }
+        setIsOneButton(builder.isOneButton);
+        setMultipleLine(builder.isMultipleLine) ;
+        //控制tv_count显示隐藏
+        initTvCountVisibleGone();
+        builder.setCancelable(false) ;
+
+    }
+
+
+    /**
+    *@Description 可以输入一行还是多行
+    *@param
+    *@return
+    *@author WinterSweett
+    *@time
+    */
+    private void setMultipleLine(boolean isMultipleLine) {
+        RelativeLayout.LayoutParams llInputParam = (RelativeLayout.LayoutParams) ll_input.getLayoutParams();
+        llInputParam.height = isMultipleLine ? dp2px(109) : dp2px(40) ;
+        ll_input.setLayoutParams(llInputParam);
+        LinearLayout.LayoutParams etInputParam = (LinearLayout.LayoutParams) et_input.getLayoutParams();
+        etInputParam.height = isMultipleLine ? dp2px(72) : dp2px(20) ;
+        et_input.setLayoutParams(etInputParam);
+        if(!isMultipleLine){
+            et_input.setSingleLine();
+        }
+    }
+
+    /**
+    *@Description 控制tv_count显示隐藏
+    *@param
+    *@return
+    *@author WinterSweett
+    *@time
+    */
+    private void initTvCountVisibleGone(){
+        int visibility = (builder.isMultipleLine && builder.inputMaxLength != null) ? View.VISIBLE : View.GONE ;
+        tv_count.setVisibility(visibility);
+    }
+
+
+    private void setContent(final CharSequence content) {
+        et_input.post(new Runnable() {
+            @Override
+            public void run() {
+                et_input.setText(content);
+            }
+        }) ;
+    }
+
+    private void sendLog(String log, Object dataInfo) {
+        TLogManager.getInstance().sendTLog(log, dataInfo);
+    }
+    public void setRightBtnText(CharSequence rightBtnText){
+        leftRightBtnLayout.setRightBtnContent(rightBtnText);
+    }
+    public void setLeftBtnText(CharSequence leftBtnText){
+        leftRightBtnLayout.setLeftBtnContent(leftBtnText) ;
+    }
+    /**
+    *@Description 左边按钮 可以点击状态的颜色
+    *@param
+    *@return
+    *@author WinterSweett
+    *@time
+    */
+    public void setLeftBtnEnableColor(){
+        tvLeft.setTextColor(Color.parseColor(builder.leftButtonEnableColor.toString()));
+    }
+    public void setHint(CharSequence hint){
+        et_input.setHint(hint);
+    }
+    public void setTitle(CharSequence title) {
+        if (TextUtils.isEmpty(title)) {
+            tv_title.setVisibility(View.GONE);
+        } else {
+            tv_title.setVisibility(View.VISIBLE);
+            tv_title.setText(title);
+        }
+    }
+    /**
+    *@Description 一个button的情况
+    *@param
+    *@return
+    *@author WinterSweett
+    *@time
+    */
+    public void setIsOneButton(boolean isOneButton) {
+        leftRightBtnLayout.setIsOneButton(isOneButton);
+        resetRightBtnHorizontalMargin(isOneButton); //需要动态调整margin
+    }
+
+    private void resetRightBtnHorizontalMargin(boolean isOneButton) {
+    }
+
+    @NonNull
+    @Override
+    protected BaseDialogConfig onConfigBuild() {
+        return BaseDialogConfig.getDefaultConfig().setWindowAnimation(NO_ANIMATION);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (builder != null && builder.resultListener != null) {
+            builder.resultListener.onCommonCallback(et_input.getText().toString());
+        }
+    }
+
+    public static class Builder extends BaseDialogBuilder<Builder>{
+        private CharSequence title ;
+        private CharSequence content ;
+        private boolean isMultipleLine = false ;
+        private String hintCountColor = "#FF6400" ;
+        private Integer inputMinLength ;//输入的最小长度
+        private Integer inputMaxLength ;//输入的最大长度
+        private CharSequence hint ; //默认文案
+        private boolean isOneButton = false ;//一个按钮还是两个按钮，默认两个
+        private CharSequence leftButtonText ;//左button文本
+        private CharSequence rightButtonText ;//右button文本
+        private String leftButtonEnableColor  ;
+        private String leftButtonDisableColor ;
+        private String rightButtonEnableColor = "#FF6400" ;
+        private String rightButtonDisableColor = "#BABCC5" ;
+        //埋点相关
+        private String showTLog;
+        private Object showTLogDataInfo;
+        private Object showAutoTLogDataInfo;
+        private String leftClickTLog;
+        private Object leftClickTLogDataInfo;
+        private Object leftShowAutoTLogDataInfo;
+        private Object leftClickAutoTLogDataInfo;
+        private String rightClickTLog;
+        private Object rightClickTLogDataInfo;
+        private Object rightShowAutoTLogDataInfo;
+        private Object rightClickAutoTLogDataInfo;
+        private OnLPInputDialogClickListenerAdapter<LPInputDialogFragment> clickListener ; //点击事件
+        private ICommonCallback<CharSequence> resultListener; // 输入文本回调
+        public Builder setResultListener(ICommonCallback<CharSequence> resultListener) {
+            this.resultListener = resultListener;
+            return this;
+        }
+
+        public Builder setTitle(CharSequence title) {
+            this.title = title;
+            return this;
+        }
+        public Builder setContent(CharSequence content) {
+            this.content = content;
+            return this;
+        }
+        public Builder setMultipleLine(boolean isMultipleLine) {
+            this.isMultipleLine = isMultipleLine;
+            return this;
+        }
+        public Builder setHintCountColor(String hintCountColor) {
+            this.hintCountColor = hintCountColor;
+            return this;
+        }
+        public Builder setInputMinLength(Integer inputMinLength) {
+            this.inputMinLength = inputMinLength;
+            return this;
+        }
+        public Builder setInputMaxlength(Integer inputMaxLength) {
+            this.inputMaxLength = inputMaxLength;
+            return this;
+        }
+        public Builder setHint(CharSequence hint) {
+            this.hint = hint;
+            return this;
+        }
+        public Builder setOneButton(boolean isOneButton) {
+            this.isOneButton = isOneButton;
+            return this;
+        }
+        public Builder setLeftBtnText(CharSequence leftButtonText) {
+            this.leftButtonText = leftButtonText;
+            return this;
+        }
+        public Builder setRightBthText(CharSequence rightButtonText) {
+            this.rightButtonText = rightButtonText;
+            return this;
+        }
+        public Builder setLeftBtnEnableColor(String leftButtonEnableColor) {
+            this.leftButtonEnableColor = leftButtonEnableColor;
+            return this;
+        }
+        public Builder setRightBtnEnableColor(String rightButtonEnableColor) {
+            this.rightButtonEnableColor = rightButtonEnableColor;
+            return this;
+        }
+        public Builder setLeftBtnDisableColor(String leftButtonDisableColor) {
+            this.leftButtonDisableColor = leftButtonDisableColor;
+            return this;
+        }
+        public Builder setRightBtnDisableColor(String rightButtonDisableColor) {
+            this.rightButtonDisableColor = rightButtonDisableColor;
+            return this;
+        }
+        public Builder setClickListener(OnLPInputDialogClickListenerAdapter<LPInputDialogFragment> clickListener) {
+            this.clickListener = clickListener;
+            return this;
+        }
+
+        @Override
+        protected void initDefaultConfig() {
+            super.initDefaultConfig();
+            leftButtonText = "取消";
+            rightButtonText = "确定";
+        }
+
+        @NonNull
+        @Override
+        protected BaseDialogFragment createDialog() {
+            return new LPInputDialogFragment();
+        }
+    }
+}
