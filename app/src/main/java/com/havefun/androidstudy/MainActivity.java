@@ -1,5 +1,6 @@
 package com.havefun.androidstudy;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.ObjectAnimator;
@@ -8,6 +9,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -17,8 +20,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.tvLaunchShortCodePage.setOnClickListener(this);
@@ -108,6 +115,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tvLaunchWidget:
                 //startActivity(new Intent(MainActivity.this, WidgetActivity.class));
+//                MyDialogFragment dialogFragment = new MyDialogFragment();
+//                dialogFragment.show(getSupportFragmentManager(),"x");
+                AlertDialog alertDialog = new AlertDialog.Builder(this).setView(R.layout.app_dialog).create();
+                alertDialog.show();
+                WindowManager.LayoutParams attributes = alertDialog.getWindow().getAttributes();
+
+                Window window = alertDialog.getWindow();
+                window.setBackgroundDrawable(null);
+                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                attributes.width = displayMetrics.widthPixels;
+                attributes.height = displayMetrics.heightPixels;
+                alertDialog.getWindow().setAttributes(attributes);
+                alertDialog.getWindow().getDecorView().setPadding(0,0,0,0);
+                alertDialog.getWindow().getDecorView().setBackground(new ColorDrawable(Color.YELLOW));
                 break;
             default:
 

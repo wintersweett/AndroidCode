@@ -17,12 +17,11 @@ import com.havefun.shortcode.manager.BaseEvent;
 import com.havefun.shortcode.manager.IListener;
 import com.havefun.shortcode.manager.ListenerManager;
 
-import de.greenrobot.event.EventBus;
 
 
-//import org.greenrobot.eventbus.EventBus;
-//import org.greenrobot.eventbus.Subscribe;
-//import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class EventBusActivity extends AppCompatActivity {
     private static final String TAG = "EventBusActivity";
@@ -42,8 +41,6 @@ public class EventBusActivity extends AppCompatActivity {
 //        binding.tvStickEvent.setOnClickListener(v -> ListenerManager.getInstance().sendBroadCast(innerEvent));
 //        binding.tvRegister.setOnClickListener(v -> ListenerManager.getInstance().registerListener(innerView));
 //        EventBus.getDefault().registerSticky();
-        Bitmap bitmap = BitmapFactory.decodeResource();
-        bitmap.compress()
     }
 
     public static class InnerView extends View implements IListener {
