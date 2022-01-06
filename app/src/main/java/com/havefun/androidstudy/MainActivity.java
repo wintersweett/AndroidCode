@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -21,13 +22,17 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -117,18 +122,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //startActivity(new Intent(MainActivity.this, WidgetActivity.class));
 //                MyDialogFragment dialogFragment = new MyDialogFragment();
 //                dialogFragment.show(getSupportFragmentManager(),"x");
-                AlertDialog alertDialog = new AlertDialog.Builder(this).setView(R.layout.app_dialog).create();
+                View inflate = LayoutInflater.from(this).inflate(R.layout.app_dialog, null);
+                AlertDialog alertDialog = new AlertDialog.Builder(this).setView(inflate).create();
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        Toast.makeText(MainActivity.this, "ss", Toast.LENGTH_SHORT).show();
+                        EditText editText = inflate.findViewById(R.id.editText);
+                        editText.requestFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                });
                 alertDialog.show();
                 WindowManager.LayoutParams attributes = alertDialog.getWindow().getAttributes();
 
                 Window window = alertDialog.getWindow();
-                window.setBackgroundDrawable(null);
+                //window.setBackgroundDrawable(null);
                 DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                attributes.width = displayMetrics.widthPixels;
-                attributes.height = displayMetrics.heightPixels;
+                //attributes.width = displayMetrics.widthPixels;
+                attributes.gravity = Gravity.BOTTOM;
+                //window.setGravity(50);
+                //attributes.height = displayMetrics.heightPixels;
                 alertDialog.getWindow().setAttributes(attributes);
-                alertDialog.getWindow().getDecorView().setPadding(0,0,0,0);
-                alertDialog.getWindow().getDecorView().setBackground(new ColorDrawable(Color.YELLOW));
+                alertDialog.getWindow().getDecorView().setPadding(0,0,0,50);
+                alertDialog.getWindow().getDecorView().setBackground(new ColorDrawable(Color.TRANSPARENT));
+
+
                 break;
             default:
 
