@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -31,6 +32,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int color = s.length() > 0 ? Color.GREEN : Color.RED;
         String content = s.length() + "/200";
         SpannableString spannableString = new SpannableString(content);
-        spannableString.setSpan(new ForegroundColorSpan(color),0,content.indexOf("/"),SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(color), 0, content.indexOf("/"), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         binding.tvCounts.setText(spannableString);
     }
 
@@ -146,26 +148,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 alertDialog.getWindow().getDecorView().setPadding(0,0,0,0);*/
                 /*MyDialogFragment dialogFragment = new MyDialogFragment();
                 dialogFragment.show(getSupportFragmentManager(), "aa");*/
-                AlertDialog alertDialog = new AlertDialog.Builder(this).setView(R.layout.app_dialog).create();
-                alertDialog.show();
-                Window window = alertDialog.getWindow();
-                View decorView = window.getDecorView();
-                WindowManager.LayoutParams attributes = window.getAttributes();
-                attributes.width = -1;
-                attributes.height = -1;
-                attributes.gravity = Gravity.BOTTOM;
-                window.setAttributes(attributes);
+
+                /*View decorView = window.getDecorView();
+
                 WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) decorView.getLayoutParams();
                 layoutParams.width = 350;
                 layoutParams.height = 350;
                 decorView.setPadding(20,20,20,20);
                 decorView.setLayoutParams(layoutParams);
 //                window.setBackgroundDrawable(null);
-                window.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.base_color_00BCD4)));
-                decorView.setBackgroundColor(getResources().getColor(R.color.base_color_06c05f));
+                decorView.setBackgroundColor(getResources().getColor(R.color.base_color_06c05f));*/
+                dialog3();
                 break;
             default:
 
         }
     }
+
+
 }

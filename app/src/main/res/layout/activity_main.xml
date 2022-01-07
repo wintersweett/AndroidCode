@@ -92,10 +92,6 @@
         android:textSelectHandle="@drawable/cursor"
         android:layout_height="50dp"/>
 
-    <TextView
-        android:id="@+id/tvCounts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 
 </LinearLayout>
