@@ -41,8 +41,14 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
 import com.havefun.common.Constants;
+import com.havefun.shortcode.Cinema;
+import com.havefun.shortcode.RealMovie;
 import com.havefun.shortcode.ShortCodeActivity;
 import com.havefun.view.WidgetActivity;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 @Route(path = "/test/activity")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -124,46 +130,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 valueAnimator.start();
                 break;
             case R.id.tvLaunchWidget:
-                //startActivity(new Intent(MainActivity.this, WidgetActivity.class));
-//                MyDialogFragment dialogFragment = new MyDialogFragment();
-//                dialogFragment.show(getSupportFragmentManager(),"x");
-                /*ViewGroup inflate = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.app_dialog, null);
-                LinearLayout childAt = (LinearLayout) inflate.getChildAt(0);
-                ViewGroup.LayoutParams layoutParams1 = childAt.getLayoutParams();
-                layoutParams1.height = getResources().getDisplayMetrics().heightPixels;
-                childAt.setLayoutParams(layoutParams1);
-                AlertDialog alertDialog = new AlertDialog.Builder(this).setView(R.layout.app_dialog).create();
-                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-
-
-                attributes.gravity = Gravity.CENTER;
-                alertDialog.getWindow().setBackgroundDrawable(null);
-                attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
-                attributes.height = WindowManager.LayoutParams.MATCH_PARENT;
-                alertDialog.getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
-                ViewGroup.LayoutParams layoutParams =  alertDialog.getWindow().getDecorView().getLayoutParams();
-                alertDialog.getWindow().setAttributes(attributes);
-                alertDialog.getWindow().getDecorView().setPadding(0,0,0,0);*/
-                /*MyDialogFragment dialogFragment = new MyDialogFragment();
-                dialogFragment.show(getSupportFragmentManager(), "aa");*/
-
-                /*View decorView = window.getDecorView();
-
-                WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) decorView.getLayoutParams();
-                layoutParams.width = 350;
-                layoutParams.height = 350;
-                decorView.setPadding(20,20,20,20);
-                decorView.setLayoutParams(layoutParams);
-//                window.setBackgroundDrawable(null);
-                decorView.setBackgroundColor(getResources().getColor(R.color.base_color_06c05f));*/
-                dialog3();
+                RealMovie realMovie = new RealMovie();
+                Cinema cinema = new Cinema(realMovie);
+                cinema.play();
                 break;
             default:
 
         }
     }
-
 
 }
