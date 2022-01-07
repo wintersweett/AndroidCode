@@ -16,7 +16,6 @@
         android:theme="@style/Theme.AndroidStudy">
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustNothing|stateHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

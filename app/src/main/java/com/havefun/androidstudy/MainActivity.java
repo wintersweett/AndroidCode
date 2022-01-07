@@ -22,14 +22,15 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+        String rightDisableColor = getResources().getColor(R.color.base_color_00BCD4) + "";
+        Log.d("ZHANG", "onCreate: " + rightDisableColor);
     }
 
     private void setInputLength(Editable s) {
@@ -122,33 +125,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //startActivity(new Intent(MainActivity.this, WidgetActivity.class));
 //                MyDialogFragment dialogFragment = new MyDialogFragment();
 //                dialogFragment.show(getSupportFragmentManager(),"x");
-                View inflate = LayoutInflater.from(this).inflate(R.layout.app_dialog, null);
-                AlertDialog alertDialog = new AlertDialog.Builder(this).setView(inflate).create();
+                /*ViewGroup inflate = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.app_dialog, null);
+                LinearLayout childAt = (LinearLayout) inflate.getChildAt(0);
+                ViewGroup.LayoutParams layoutParams1 = childAt.getLayoutParams();
+                layoutParams1.height = getResources().getDisplayMetrics().heightPixels;
+                childAt.setLayoutParams(layoutParams1);
+                AlertDialog alertDialog = new AlertDialog.Builder(this).setView(R.layout.app_dialog).create();
                 alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialog) {
-                        Toast.makeText(MainActivity.this, "ss", Toast.LENGTH_SHORT).show();
-                        EditText editText = inflate.findViewById(R.id.editText);
-                        editText.requestFocus();
-                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        imm.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
-                });
-                alertDialog.show();
-                WindowManager.LayoutParams attributes = alertDialog.getWindow().getAttributes();
 
-                Window window = alertDialog.getWindow();
-                //window.setBackgroundDrawable(null);
-                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                //attributes.width = displayMetrics.widthPixels;
-                attributes.gravity = Gravity.BOTTOM;
-                //window.setGravity(50);
-                //attributes.height = displayMetrics.heightPixels;
+
+                attributes.gravity = Gravity.CENTER;
+                alertDialog.getWindow().setBackgroundDrawable(null);
+                attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
+                attributes.height = WindowManager.LayoutParams.MATCH_PARENT;
+                alertDialog.getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+                ViewGroup.LayoutParams layoutParams =  alertDialog.getWindow().getDecorView().getLayoutParams();
                 alertDialog.getWindow().setAttributes(attributes);
-                alertDialog.getWindow().getDecorView().setPadding(0,0,0,50);
-                alertDialog.getWindow().getDecorView().setBackground(new ColorDrawable(Color.TRANSPARENT));
-
-
+                alertDialog.getWindow().getDecorView().setPadding(0,0,0,0);*/
+                /*MyDialogFragment dialogFragment = new MyDialogFragment();
+                dialogFragment.show(getSupportFragmentManager(), "aa");*/
+                AlertDialog alertDialog = new AlertDialog.Builder(this).setView(R.layout.app_dialog).create();
+                alertDialog.show();
+                Window window = alertDialog.getWindow();
+                View decorView = window.getDecorView();
+                WindowManager.LayoutParams attributes = window.getAttributes();
+                attributes.width = -1;
+                attributes.height = -1;
+                attributes.gravity = Gravity.BOTTOM;
+                window.setAttributes(attributes);
+                WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) decorView.getLayoutParams();
+                layoutParams.width = 350;
+                layoutParams.height = 350;
+                decorView.setPadding(20,20,20,20);
+                decorView.setLayoutParams(layoutParams);
+//                window.setBackgroundDrawable(null);
+                window.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.base_color_00BCD4)));
+                decorView.setBackgroundColor(getResources().getColor(R.color.base_color_06c05f));
                 break;
             default:
 
