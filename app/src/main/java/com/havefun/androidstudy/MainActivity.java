@@ -44,6 +44,7 @@ import com.havefun.common.Constants;
 import com.havefun.shortcode.Cinema;
 import com.havefun.shortcode.RealMovie;
 import com.havefun.shortcode.ShortCodeActivity;
+import com.havefun.shortcode.activity.JetpackActivity;
 import com.havefun.view.WidgetActivity;
 
 import java.lang.reflect.InvocationHandler;
@@ -65,6 +66,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.tvLaunchShortCodePage.setOnClickListener(this);
         binding.tvLaunchWidget.setOnClickListener(this);
         binding.tvLaunchThirdParty.setOnClickListener(this);
+
+        startActivity(new Intent(this, JetpackActivity.class));
+    }
+
+    private void setInputLength(Editable s) {
+        int color = s.length() > 0 ? Color.GREEN : Color.RED;
+        String content = s.length() + "/200";
+        SpannableString spannableString = new SpannableString(content);
+        spannableString.setSpan(new ForegroundColorSpan(color), 0, content.indexOf("/"), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        binding.tvCounts.setText(spannableString);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvLaunchShortCodePage:
+                //startActivity(new Intent(MainActivity.this, ShortCodeActivity.class));
+                ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0.0f, 1.0f);
+                valueAnimator.setDuration(2000);
+                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float progress = (float) animation.getAnimatedValue();
+                        binding.colorTrackTextView.setCurrentProgress(progress);
+                    }
+                });
+                valueAnimator.start();
+                break;
+            case R.id.tvLaunchWidget:
+                RealMovie realMovie = new RealMovie();
+                Cinema cinema = new Cinema(realMovie);
+                cinema.play();
+                break;
+            default:
+
+        }
+    }
+
+
+    public void test() {
         // 初始化textView显示
         setInputLength(new SpannableStringBuilder(""));
         binding.editText.setTextColor(Color.RED);
@@ -103,40 +145,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String rightDisableColor = getResources().getColor(R.color.base_color_00BCD4) + "";
         Log.d("ZHANG", "onCreate: " + rightDisableColor);
     }
-
-    private void setInputLength(Editable s) {
-        int color = s.length() > 0 ? Color.GREEN : Color.RED;
-        String content = s.length() + "/200";
-        SpannableString spannableString = new SpannableString(content);
-        spannableString.setSpan(new ForegroundColorSpan(color), 0, content.indexOf("/"), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-        binding.tvCounts.setText(spannableString);
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvLaunchShortCodePage:
-                //startActivity(new Intent(MainActivity.this, ShortCodeActivity.class));
-                ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0.0f, 1.0f);
-                valueAnimator.setDuration(2000);
-                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float progress = (float) animation.getAnimatedValue();
-                        binding.colorTrackTextView.setCurrentProgress(progress);
-                    }
-                });
-                valueAnimator.start();
-                break;
-            case R.id.tvLaunchWidget:
-                RealMovie realMovie = new RealMovie();
-                Cinema cinema = new Cinema(realMovie);
-                cinema.play();
-                break;
-            default:
-
-        }
-    }
-
 }

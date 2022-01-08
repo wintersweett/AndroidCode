@@ -8,5 +8,6 @@
         <activity android:name=".activity.EventBusActivity"/>
         <activity android:name=".activity.ThirdPartyActivity"/>
         <activity android:name=".activity.ViewPagerActivity"/>
+        <activity android:name=".activity.JetpackActivity"/>
     </application>
 </manifest>
