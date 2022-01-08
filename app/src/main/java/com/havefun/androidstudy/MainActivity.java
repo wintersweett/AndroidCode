@@ -105,6 +105,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     public void test() {
         // 初始化textView显示
