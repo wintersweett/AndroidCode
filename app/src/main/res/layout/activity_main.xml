@@ -86,12 +86,9 @@
         android:layout_height="72dp"
         tools:ignore="Suspicious0dp" />
 
-
     <EditText
         android:layout_width="match_parent"
         android:textSelectHandle="@drawable/cursor"
-        android:layout_height="50dp"/>
-
-
+        android:layout_height="150dp"/>
 
 </LinearLayout>

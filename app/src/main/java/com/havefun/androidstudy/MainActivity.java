@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.tvLaunchShortCodePage.setOnClickListener(this);
@@ -70,40 +69,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(new Intent(this, JetpackActivity.class));
     }
 
-    private void setInputLength(Editable s) {
-        int color = s.length() > 0 ? Color.GREEN : Color.RED;
-        String content = s.length() + "/200";
-        SpannableString spannableString = new SpannableString(content);
-        spannableString.setSpan(new ForegroundColorSpan(color), 0, content.indexOf("/"), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-        binding.tvCounts.setText(spannableString);
-    }
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvLaunchShortCodePage:
-                //startActivity(new Intent(MainActivity.this, ShortCodeActivity.class));
-                ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0.0f, 1.0f);
-                valueAnimator.setDuration(2000);
-                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float progress = (float) animation.getAnimatedValue();
-                        binding.colorTrackTextView.setCurrentProgress(progress);
-                    }
-                });
-                valueAnimator.start();
-                break;
-            case R.id.tvLaunchWidget:
-                RealMovie realMovie = new RealMovie();
-                Cinema cinema = new Cinema(realMovie);
-                cinema.play();
-                break;
-            default:
 
-        }
-    }
+
 
     @Override
     protected void onResume() {
@@ -146,7 +114,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        String rightDisableColor = getResources().getColor(R.color.base_color_00BCD4) + "";
-        Log.d("ZHANG", "onCreate: " + rightDisableColor);
+    }
+
+    private void setInputLength(Editable s) {
+        int color = s.length() > 0 ? Color.GREEN : Color.RED;
+        String content = s.length() + "/200";
+        SpannableString spannableString = new SpannableString(content);
+        spannableString.setSpan(new ForegroundColorSpan(color),0,content.indexOf("/"),SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        binding.tvCounts.setText(spannableString);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvLaunchShortCodePage:
+                //startActivity(new Intent(MainActivity.this, ShortCodeActivity.class));
+                ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0.0f, 1.0f);
+                valueAnimator.setDuration(2000);
+                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float progress = (float) animation.getAnimatedValue();
+                        binding.colorTrackTextView.setCurrentProgress(progress);
+                    }
+                });
+                valueAnimator.start();
+                break;
+            case R.id.tvLaunchWidget:
+                //startActivity(new Intent(MainActivity.this, WidgetActivity.class));
+//                MyDialogFragment dialogFragment = new MyDialogFragment();
+//                dialogFragment.show(getSupportFragmentManager(),"x");
+
+                /*WindowManager.LayoutParams attributes = alertDialog.getWindow().getAttributes();
+
+                Window window = alertDialog.getWindow();
+                //window.setBackgroundDrawable(null);
+                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                //attributes.width = displayMetrics.widthPixels;
+                attributes.gravity = Gravity.BOTTOM;
+                //window.setGravity(50);
+                //attributes.height = displayMetrics.heightPixels;
+                alertDialog.getWindow().setAttributes(attributes);
+                alertDialog.getWindow().getDecorView().setPadding(0,0,0,50);
+                alertDialog.getWindow().getDecorView().setBackground(new ColorDrawable(Color.TRANSPARENT));*/
+
+                MyDialogFragment dialogFragment = new MyDialogFragment();
+                dialogFragment.show(getSupportFragmentManager(), "a");
+                break;
+            default:
+
+        }
     }
 }
