@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.bumptech.glide.Glide;
 import com.havefun.shortcode.activity.EventBusActivity;
 import com.havefun.shortcode.activity.ViewPagerActivity;
 import com.havefun.shortcode.databinding.ShortcodeActivityShortcodeBinding;
@@ -34,6 +35,7 @@ public class ShortCodeActivity extends AppCompatActivity {
 
         binding.tvEventBusPage.setOnClickListener(v -> startActivity(new Intent(this,
                 ViewPagerActivity.class)));
+
     }
 
     private void dialog1() {

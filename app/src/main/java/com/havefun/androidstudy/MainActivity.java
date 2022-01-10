@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
 import com.havefun.common.Constants;
 import com.havefun.shortcode.Cinema;
@@ -67,7 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.tvLaunchWidget.setOnClickListener(this);
         binding.tvLaunchThirdParty.setOnClickListener(this);
 
-        startActivity(new Intent(this, JetpackActivity.class));
+        //startActivity(new Intent(this, JetpackActivity.class));
+
+        String url = "http://guolin.tech/book.png";
+        Glide.with(this).load(url).into(binding.imageView);
     }
 
     private void setInputLength(Editable s) {
@@ -75,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String content = s.length() + "/200";
         SpannableString spannableString = new SpannableString(content);
         spannableString.setSpan(new ForegroundColorSpan(color), 0, content.indexOf("/"), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-        binding.tvCounts.setText(spannableString);
     }
 
     @SuppressLint("NonConstantResourceId")
