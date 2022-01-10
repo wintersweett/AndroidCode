@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.tvLaunchShortCodePage.setOnClickListener(this);
@@ -74,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Glide.with(this).load(url).into(binding.imageView);
     }
 
+
     private void setInputLength(Editable s) {
         int color = s.length() > 0 ? Color.GREEN : Color.RED;
         String content = s.length() + "/200";
@@ -81,75 +81,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         spannableString.setSpan(new ForegroundColorSpan(color), 0, content.indexOf("/"), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvLaunchShortCodePage:
-                //startActivity(new Intent(MainActivity.this, ShortCodeActivity.class));
-                ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0.0f, 1.0f);
-                valueAnimator.setDuration(2000);
-                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float progress = (float) animation.getAnimatedValue();
-                        binding.colorTrackTextView.setCurrentProgress(progress);
-                    }
-                });
-                valueAnimator.start();
-                break;
-            case R.id.tvLaunchWidget:
-                RealMovie realMovie = new RealMovie();
-                Cinema cinema = new Cinema(realMovie);
-                cinema.play();
-                break;
-            default:
 
-        }
-    }
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    public void test() {
-        // 初始化textView显示
-        setInputLength(new SpannableStringBuilder(""));
-        binding.editText.setTextColor(Color.RED);
-        int currentHintTextColor = binding.editText.getCurrentTextColor();
-        System.out.println("AABBCC:" + (currentHintTextColor == Color.RED) + " " + Color.RED + " cu: " + currentHintTextColor);
-        System.out.println("AABBCC:" + Integer.toHexString(currentHintTextColor));
-        textView = new TextView(this);
-//        binding.editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)}); //最大输入长度
-
-        //binding.editText.setMaxLines(1);
-        //binding.editText.setInputType(EditorInfo.TYPE_CLASS_TEXT);
-        binding.editText.setMovementMethod(LinkMovementMethod.getInstance());
-        binding.editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                setInputLength(s);
-                if (s.length() < 1) {
-                    binding.tvLaunchShortCodePage.setTextColor(Color.GRAY);  // 灰色
-                    binding.tvLaunchShortCodePage.setClickable(false);   // 不可点击
-                } else {
-                    binding.tvLaunchShortCodePage.setTextColor(Color.RED);   // 红色
-                    binding.tvLaunchShortCodePage.setClickable(true);    // 可点击
-                }
-            }
-        });
-        String rightDisableColor = getResources().getColor(R.color.base_color_00BCD4) + "";
-        Log.d("ZHANG", "onCreate: " + rightDisableColor);
     }
 }

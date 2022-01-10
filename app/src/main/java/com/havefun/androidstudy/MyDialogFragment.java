@@ -2,6 +2,9 @@ package com.havefun.androidstudy;
 
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+
+import android.content.Context;
+
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,9 +15,12 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,11 +35,13 @@ public class MyDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
+
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         editText = view.findViewById(R.id.editText);
         editText.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -57,33 +65,5 @@ public class MyDialogFragment extends DialogFragment {
             }
         });
         button = view.findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View decorView = getDialog().getWindow().getDecorView();
-                Window window = getDialog().getWindow();
-                WindowManager.LayoutParams attributes = window.getAttributes();
-                attributes.windowAnimations = R.animator.trans;
-                window.setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
-                decorView.setBackgroundColor(Color.DKGRAY);
-                float translationY = decorView.getTranslationY();
-                ObjectAnimator anim = ObjectAnimator.ofFloat(decorView, "translationY", translationY, translationY - 300);
-                anim.setDuration(1000);
-                anim.start();
-            }
-        });
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.app_dialog_fragment,container,false);
-    }
-
-    @Override
-    public void show(@NonNull FragmentManager manager, @Nullable String tag) {
-        super.show(manager, tag);
-
-
     }
 }
