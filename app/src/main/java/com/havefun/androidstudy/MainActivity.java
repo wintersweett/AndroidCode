@@ -1,63 +1,30 @@
 package com.havefun.androidstudy;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
-import com.havefun.common.Constants;
-import com.havefun.shortcode.Cinema;
-import com.havefun.shortcode.RealMovie;
-import com.havefun.shortcode.ShortCodeActivity;
-import com.havefun.shortcode.activity.JetpackActivity;
-import com.havefun.view.WidgetActivity;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 @Route(path = "/test/activity")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "AAABBCC";
 
     private ActivityMainBinding binding;
     private TextView textView;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +38,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String url = "http://guolin.tech/book.png";
         Glide.with(this).load(url).into(binding.imageView);
+
+        int i = Color.parseColor("#0000FF");
+        int i1 = Color.parseColor("#FFFFFF");
+        int i2 = Color.parseColor("#00000000");
+        int i3 = Color.parseColor("#FFFFFFFF");
+        long color = Long.parseLong("0000FF", 16);
+
+        Log.d(TAG, "onCreate: color: " +  Color.parseColor("#00FF00"));
+        Log.d(TAG, "onCreate: cast int color: " +   Color.parseColor("#FF0000"));
+        Log.d(TAG, "onCreate: " + i);
+        Log.d(TAG, "onCreate: " + i1);
+        Log.d(TAG, "onCreate: " + i2);
+        Log.d(TAG, "onCreate: " + i3);
+        Log.d(TAG, "onCreate: " + Color.argb(255,255,255,255));
+        Log.d(TAG, "onCreate: " + Color.argb(254,255,255,255));
+        Log.d(TAG, "onCreate: " + Color.argb(253,255,255,255));
+        Log.d(TAG, "onCreate: " + Color.argb(252,255,255,255));
+
+
+                
     }
 
 
@@ -88,5 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onClick(View v) {
+        
     }
 }
