@@ -43,26 +43,20 @@ public class MyDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         editText = view.findViewById(R.id.editText);
-        editText.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Log.d(TAG, "onGlobalLayout: ");
-                int[] location = new int[2];
-                editText.getLocationInWindow(location);
-                int measuredHeight = editText.getMeasuredHeight();
-                Log.d(TAG, "onGlobalLayout: " + location[0] + " | " + location[1] + " | " + measuredHeight);
-            }
+        editText.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            Log.d(TAG, "onGlobalLayout: ");
+            int[] location = new int[2];
+            editText.getLocationInWindow(location);
+            int measuredHeight = editText.getMeasuredHeight();
+            Log.d(TAG, "onGlobalLayout: " + location[0] + " | " + location[1] + " | " + measuredHeight);
         });
 
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                /*Toast.makeText(getContext(), "ret: " + hasFocus, Toast.LENGTH_SHORT).show();
-                if (hasFocus) {
-                    getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.RED));
-                    getDialog().getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
-                }*/
-            }
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            /*Toast.makeText(getContext(), "ret: " + hasFocus, Toast.LENGTH_SHORT).show();
+            if (hasFocus) {
+                getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.RED));
+                getDialog().getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+            }*/
         });
         button = view.findViewById(R.id.button);
     }

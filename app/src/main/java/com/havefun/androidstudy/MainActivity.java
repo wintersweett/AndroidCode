@@ -1,33 +1,31 @@
 package com.havefun.androidstudy;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
-
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.bumptech.glide.Glide;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
 import com.havefun.shortcode.activity.JetpackActivity;
 
+
 @Route(path = "/test/activity")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "AAABBCC";
 
     private ActivityMainBinding binding;
     private TextView textView;
@@ -47,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +60,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Message msg = Message.obtain();
         msg.what = MSG_TEST;
         handler.sendMessage(msg);
+        //startActivity(new Intent(this, JetpackActivity.class));
+
+        String url = "http://guolin.tech/book.png";
+        Glide.with(this).load(url).into(binding.imageView);
+
+        int i = Color.parseColor("#0000FF");
+        int i1 = Color.parseColor("#FFFFFF");
+        int i2 = Color.parseColor("#00000000");
+        int i3 = Color.parseColor("#FFFFFFFF");
+        long color = Long.parseLong("0000FF", 16);
+
+        Log.d(TAG, "onCreate: color: " +  Color.parseColor("#00FF00"));
+        Log.d(TAG, "onCreate: cast int color: " +   Color.parseColor("#FF0000"));
+        Log.d(TAG, "onCreate: " + i);
+        Log.d(TAG, "onCreate: " + i1);
+        Log.d(TAG, "onCreate: " + i2);
+        Log.d(TAG, "onCreate: " + i3);
+        Log.d(TAG, "onCreate: " + Color.argb(255,255,255,255));
+        Log.d(TAG, "onCreate: " + Color.argb(254,255,255,255));
+        Log.d(TAG, "onCreate: " + Color.argb(253,255,255,255));
+        Log.d(TAG, "onCreate: " + Color.argb(252,255,255,255));
+
+
+                
+    }
+
+
+    private void setInputLength(Editable s) {
+        int color = s.length() > 0 ? Color.GREEN : Color.RED;
+        String content = s.length() + "/200";
+        SpannableString spannableString = new SpannableString(content);
+        spannableString.setSpan(new ForegroundColorSpan(color), 0, content.indexOf("/"), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
 
@@ -72,92 +103,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
     }
 
-    public void test() {
-        // 初始化textView显示
-        setInputLength(new SpannableStringBuilder(""));
-        binding.editText.setTextColor(Color.RED);
-        int currentHintTextColor = binding.editText.getCurrentTextColor();
-        System.out.println("AABBCC:" + (currentHintTextColor == Color.RED) + " " + Color.RED + " cu: " + currentHintTextColor);
-        System.out.println("AABBCC:" + Integer.toHexString(currentHintTextColor));
-        textView = new TextView(this);
-//        binding.editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)}); //最大输入长度
-
-        //binding.editText.setMaxLines(1);
-        //binding.editText.setInputType(EditorInfo.TYPE_CLASS_TEXT);
-        binding.editText.setMovementMethod(LinkMovementMethod.getInstance());
-        binding.editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                setInputLength(s);
-                if (s.length() < 1) {
-                    binding.tvLaunchShortCodePage.setTextColor(Color.GRAY);  // 灰色
-                    binding.tvLaunchShortCodePage.setClickable(false);   // 不可点击
-                } else {
-                    binding.tvLaunchShortCodePage.setTextColor(Color.RED);   // 红色
-                    binding.tvLaunchShortCodePage.setClickable(true);    // 可点击
-                }
-            }
-        });
-    }
-
-    private void setInputLength(Editable s) {
-        int color = s.length() > 0 ? Color.GREEN : Color.RED;
-        String content = s.length() + "/200";
-        SpannableString spannableString = new SpannableString(content);
-        spannableString.setSpan(new ForegroundColorSpan(color),0,content.indexOf("/"),SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-        binding.tvCounts.setText(spannableString);
-    }
-
-    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvLaunchShortCodePage:
-                //startActivity(new Intent(MainActivity.this, ShortCodeActivity.class));
-                ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0.0f, 1.0f);
-                valueAnimator.setDuration(2000);
-                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float progress = (float) animation.getAnimatedValue();
-                        binding.colorTrackTextView.setCurrentProgress(progress);
-                    }
-                });
-                valueAnimator.start();
-                break;
-            case R.id.tvLaunchWidget:
-                //startActivity(new Intent(MainActivity.this, WidgetActivity.class));
-//                MyDialogFragment dialogFragment = new MyDialogFragment();
-//                dialogFragment.show(getSupportFragmentManager(),"x");
-
-                /*WindowManager.LayoutParams attributes = alertDialog.getWindow().getAttributes();
-
-                Window window = alertDialog.getWindow();
-                //window.setBackgroundDrawable(null);
-                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                //attributes.width = displayMetrics.widthPixels;
-                attributes.gravity = Gravity.BOTTOM;
-                //window.setGravity(50);
-                //attributes.height = displayMetrics.heightPixels;
-                alertDialog.getWindow().setAttributes(attributes);
-                alertDialog.getWindow().getDecorView().setPadding(0,0,0,50);
-                alertDialog.getWindow().getDecorView().setBackground(new ColorDrawable(Color.TRANSPARENT));*/
-
-                MyDialogFragment dialogFragment = new MyDialogFragment();
-                dialogFragment.show(getSupportFragmentManager(), "a");
-                break;
-            default:
-
-        }
+        
     }
 }
