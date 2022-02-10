@@ -35,6 +35,8 @@ import com.havefun.common.Constants;
 
 import com.havefun.shortcode.activity.JetpackActivity;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 @Route(path = "/app/activity")
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //bindService(new Intent(), connection, Service.BIND_AUTO_CREATE);
         ApiService apiService = RequestManager.sInstance().create(ApiService.class);
-        apiService.getComments().compose(RxSchedulers.compose()).subscribe(comments -> {
+        apiService.getComments().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(comments -> {
             Log.d(TAG, "onCreate: " + comments.toString());
         }, throwable -> {
 
