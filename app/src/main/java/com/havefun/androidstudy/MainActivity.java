@@ -1,7 +1,6 @@
 package com.havefun.androidstudy;
 
 
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -10,10 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -31,8 +26,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.havefun.androidstudy.bean.Comments;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
 
+import com.havefun.androidstudy.net.RequestManager;
+import com.havefun.androidstudy.net.RxSchedulers;
 import com.havefun.common.Constants;
 
 import com.havefun.shortcode.activity.JetpackActivity;
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case MSG_TEST:
                     // do something
                     break;
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.tvLaunchWidget.setOnClickListener(this);
         binding.tvLaunchThirdParty.setOnClickListener(this);
 
-        startActivity(new Intent(this, JetpackActivity.class));
+        //startActivity(new Intent(this, JetpackActivity.class));
 
         Message msg = Message.obtain();
         msg.what = MSG_TEST;
@@ -100,7 +98,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //bindService(new Intent(), connection, Service.BIND_AUTO_CREATE);
+        ApiService apiService = RequestManager.sInstance().create(ApiService.class);
+        apiService.getComments().compose(RxSchedulers.compose()).subscribe(comments -> {
+            Log.d(TAG, "onCreate: " + comments.toString());
+        }, throwable -> {
 
+        });
     }
 
     private ServiceConnection connection = new ServiceConnection() {
