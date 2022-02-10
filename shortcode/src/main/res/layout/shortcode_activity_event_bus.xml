@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/tvUnregister"
         style="@style/CommonButtonTheme"
-        android:text="取消注册" />
+        android:text="移除事件" />
 
     <TextView
         android:id="@+id/tvSendEvent"

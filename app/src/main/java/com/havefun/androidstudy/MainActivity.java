@@ -1,8 +1,13 @@
 package com.havefun.androidstudy;
 
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -11,13 +16,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
+import com.havefun.common.Constants;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-@Route(path = "/test/activity")
+@Route(path = "/app/activity")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "AAABBCC";
 
@@ -45,20 +52,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int i3 = Color.parseColor("#FFFFFFFF");
         long color = Long.parseLong("0000FF", 16);
 
-        Log.d(TAG, "onCreate: color: " +  Color.parseColor("#00FF00"));
-        Log.d(TAG, "onCreate: cast int color: " +   Color.parseColor("#FF0000"));
+        Log.d(TAG, "onCreate: color: " + Color.parseColor("#00FF00"));
+        Log.d(TAG, "onCreate: cast int color: " + Color.parseColor("#FF0000"));
         Log.d(TAG, "onCreate: " + i);
         Log.d(TAG, "onCreate: " + i1);
         Log.d(TAG, "onCreate: " + i2);
         Log.d(TAG, "onCreate: " + i3);
-        Log.d(TAG, "onCreate: " + Color.argb(255,255,255,255));
-        Log.d(TAG, "onCreate: " + Color.argb(254,255,255,255));
-        Log.d(TAG, "onCreate: " + Color.argb(253,255,255,255));
-        Log.d(TAG, "onCreate: " + Color.argb(252,255,255,255));
+        Log.d(TAG, "onCreate: " + Color.argb(255, 255, 255, 255));
+        Log.d(TAG, "onCreate: " + Color.argb(254, 255, 255, 255));
+        Log.d(TAG, "onCreate: " + Color.argb(253, 255, 255, 255));
+        Log.d(TAG, "onCreate: " + Color.argb(252, 255, 255, 255));
 
 
-                
+        //bindService(new Intent(), connection, Service.BIND_AUTO_CREATE);
+
     }
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
 
     private void setInputLength(Editable s) {
@@ -69,9 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -79,6 +96,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        
+        if (v == binding.tvLaunchShortCodePage) {
+            Intent it = new Intent();
+            ARouter.getInstance().build(Constants.PATH_SHORT_CODE_ACTIVITY).withString("key", "value")
+                    .navigation();
+        }
     }
 }

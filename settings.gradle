@@ -4,3 +4,5 @@ include ':shortcode'
 include ':view'
 include ':base'
 include ':common'
+include ':libexternal'
+project(":libexternal").projectDir = new File("C:\\code\\as-workspace\\ExternalModule\\libexternal")
