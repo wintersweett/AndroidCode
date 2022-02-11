@@ -65,6 +65,20 @@
         android:text="自定义控件"
         android:textColor="@color/white"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvNetRequest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/base_launch_page_bg_selector"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="网络请求"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
     <TextView
         android:id="@+id/textView"
         android:text="Zhangjunpu"

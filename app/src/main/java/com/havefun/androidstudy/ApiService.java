@@ -1,14 +1,15 @@
 package com.havefun.androidstudy;
 
-import com.havefun.androidstudy.bean.Comments;
+import com.havefun.androidstudy.bean.BannerBean;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 
 public interface ApiService {
-    @GET("comments/14500/json")
-    Observable<Comments> getComments();
+    @GET("banner/json")
+    Observable<BannerBean> getComments();
+
+    @GET("banner/json")
+    Call<BannerBean> getBanner();
 }

@@ -9,34 +9,28 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.havefun.androidstudy.bean.Comments;
+import com.havefun.androidstudy.bean.BannerBean;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
 
 import com.havefun.androidstudy.net.RequestManager;
-import com.havefun.androidstudy.net.RxSchedulers;
 import com.havefun.common.Constants;
-
-import com.havefun.shortcode.activity.JetpackActivity;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 
 @Route(path = "/app/activity")
@@ -44,22 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "AAABBCC";
 
     private ActivityMainBinding binding;
-    private TextView textView;
-    public final int MSG_TEST = 5;
-    Handler handler = new Handler(Looper.getMainLooper()) {
 
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case MSG_TEST:
-                    // do something
-                    break;
-                default:
-                    // do something
-                    break;
-            }
-        }
-    };
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -70,42 +49,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.tvLaunchShortCodePage.setOnClickListener(this);
         binding.tvLaunchWidget.setOnClickListener(this);
         binding.tvLaunchThirdParty.setOnClickListener(this);
-
-        //startActivity(new Intent(this, JetpackActivity.class));
-
-        Message msg = Message.obtain();
-        msg.what = MSG_TEST;
-        handler.sendMessage(msg);
-        //startActivity(new Intent(this, JetpackActivity.class));
+        binding.tvNetRequest.setOnClickListener(this);
 
         String url = "http://guolin.tech/book.png";
         Glide.with(this).load(url).into(binding.imageView);
 
-        int i = Color.parseColor("#0000FF");
-        int i1 = Color.parseColor("#FFFFFF");
-        int i2 = Color.parseColor("#00000000");
-        int i3 = Color.parseColor("#FFFFFFFF");
-        long color = Long.parseLong("0000FF", 16);
 
-        Log.d(TAG, "onCreate: color: " + Color.parseColor("#00FF00"));
-        Log.d(TAG, "onCreate: cast int color: " + Color.parseColor("#FF0000"));
-        Log.d(TAG, "onCreate: " + i);
-        Log.d(TAG, "onCreate: " + i1);
-        Log.d(TAG, "onCreate: " + i2);
-        Log.d(TAG, "onCreate: " + i3);
-        Log.d(TAG, "onCreate: " + Color.argb(255, 255, 255, 255));
-        Log.d(TAG, "onCreate: " + Color.argb(254, 255, 255, 255));
-        Log.d(TAG, "onCreate: " + Color.argb(253, 255, 255, 255));
-        Log.d(TAG, "onCreate: " + Color.argb(252, 255, 255, 255));
 
 
         //bindService(new Intent(), connection, Service.BIND_AUTO_CREATE);
-        ApiService apiService = RequestManager.sInstance().create(ApiService.class);
-        apiService.getComments().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(comments -> {
-            Log.d(TAG, "onCreate: " + comments.toString());
-        }, throwable -> {
 
-        });
     }
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -140,6 +93,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent it = new Intent();
             ARouter.getInstance().build(Constants.PATH_SHORT_CODE_ACTIVITY).withString("key", "value")
                     .navigation();
+        } else if (v == binding.tvNetRequest) {
+            ApiService apiService = RequestManager.sInstance().create(ApiService.class);
+            apiService.getBanner().enqueue(new Callback<BannerBean>() {
+                @Override
+                public void onResponse(Call<BannerBean> call, Response<BannerBean> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<BannerBean> call, Throwable t) {
+
+                }
+            });
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    apiService.getComments()
+                            .subscribe(bannerBean -> {
+                                int a = 8;
+                                Log.d(TAG, "onCreate: " + bannerBean.toString());
+                            }, throwable -> {
+                                int b = 9;
+                            });
+                }
+            }).start();
+
+
         }
     }
 }
