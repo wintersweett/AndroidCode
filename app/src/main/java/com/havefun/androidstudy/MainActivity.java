@@ -4,6 +4,7 @@ package com.havefun.androidstudy;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,11 +27,16 @@ import retrofit2.Response;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Options;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.havefun.androidstudy.bean.BannerBean;
 import com.havefun.androidstudy.databinding.ActivityMainBinding;
 
 import com.havefun.androidstudy.net.RequestManager;
 import com.havefun.common.Constants;
+import com.havefun.shortcode.BuildConfig;
 
 
 @Route(path = "/app/activity")
@@ -51,14 +57,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.tvLaunchThirdParty.setOnClickListener(this);
         binding.tvNetRequest.setOnClickListener(this);
 
-        String url = "http://guolin.tech/book.png";
+        /*String url = "http://guolin.tech/book.png";
         Glide.with(this).load(url).into(binding.imageView);
 
+        Glide.with(this).load(url)
+                .transform(new RoundedCorners(100))
+                .into(binding.imageView2);
 
 
+        Glide.with(this).load(url)
+                .transform(new RoundedCorners(100))
+                .into(binding.imageView2);
+
+        RequestOptions mRequestOptions = RequestOptions.circleCropTransform()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)//不做磁盘缓存
+                .skipMemoryCache(true);//不做内存缓存
+        Glide.with(this).load(url)
+                .apply(mRequestOptions)
+                .into(binding.imageView3);*/
 
         //bindService(new Intent(), connection, Service.BIND_AUTO_CREATE);
 
+        SharedPreferences test = getSharedPreferences("test", MODE_PRIVATE);
+        test.edit().putString("name","zhangjunpu").apply();
+        test.edit().putLong("longKey",123456789).apply();
+
+        startActivity(new Intent(this, Main2Activity.class));
     }
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -90,9 +114,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v == binding.tvLaunchShortCodePage) {
-            Intent it = new Intent();
+            /*Intent it = new Intent();
             ARouter.getInstance().build(Constants.PATH_SHORT_CODE_ACTIVITY).withString("key", "value")
-                    .navigation();
+                    .navigation();*/
+            String url = "http://guolin.tech/book.png";
+            Glide.with(this).load(url).into(binding.imageView);
         } else if (v == binding.tvNetRequest) {
             ApiService apiService = RequestManager.sInstance().create(ApiService.class);
             apiService.getBanner().enqueue(new Callback<BannerBean>() {
