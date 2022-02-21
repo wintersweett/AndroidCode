@@ -6,3 +6,4 @@ include ':base'
 include ':common'
 include ':libexternal'
 project(":libexternal").projectDir = new File("C:\\code\\as-workspace\\ExternalModule\\libexternal")
+include ':login'

@@ -3,16 +3,23 @@ plugins {
     //id 'com.alibaba.arouter'
 }
 
+def config = rootProject.ext.version
+
+println("version: ${config.applicationId}")
+println("version: ${testName}")
+deps.each { k, v ->
+    println("k: $k , v: $v")
+}
 android {
-    compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.havefun.androidstudy"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        applicationId config.applicationId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
